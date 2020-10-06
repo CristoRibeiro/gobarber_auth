@@ -1,9 +1,13 @@
 {
   "cSpell.words": [
+    "authenticated",
     "downlevel",
     "downlevel iteration",
+    "ensure",
+    "ensure authenticated middlewares",
     "gobarber",
     "iteration",
+    "middlewares",
     "postgres"
   ]
 }

@@ -49,6 +49,8 @@ export default class AlterTableAppointmentsProvider1601695441547
         columnNames: ['provider_id'],
         referencedColumnNames: ['id'],
         referencedTableName: 'users',
+        onDelete: 'SET NULL',
+        onUpdate: 'CASCADE',
       }),
     );
   }
@@ -74,6 +76,7 @@ export default class AlterTableAppointmentsProvider1601695441547
       new TableColumn({
         name: 'provider',
         type: 'varchar',
+        isNullable: true,
       }),
     );
     await queryRunner.dropColumn('appointments', 'id');

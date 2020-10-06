@@ -3,14 +3,21 @@ import { parseISO } from 'date-fns';
 import { getCustomRepository } from 'typeorm';
 import AppointmentsRepository from '../repositories/AppointmentsRepository';
 import CreateAppointmentService from '../services/CreateAppointmentService';
+import ensureAuthenticated from '../middlewares/ensureAuthenticated';
 
 const appointmentsRouter = Router();
 
+appointmentsRouter.use(ensureAuthenticated);
 appointmentsRouter.get('/', async (request, response) => {
   try {
     const appointmentsRepository = getCustomRepository(AppointmentsRepository);
 
-    const appointments = await appointmentsRepository.find();
+    const appointments = await appointmentsRepository.findOne({
+      where: { provider_id: request.user.id },
+    });
+    if (!appointments) {
+      throw new Error('Not appointments to list.');
+    }
     return response.json(appointments);
   } catch (error) {
     return response.status(400).json({ error: error.message });
