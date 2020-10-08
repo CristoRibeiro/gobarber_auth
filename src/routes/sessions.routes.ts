@@ -6,18 +6,15 @@ const sessionsRouter = Router();
 
 sessionsRouter.post('/', async (request, response) => {
   const { email, password } = request.body;
-  try {
-    const createSessionService = new CreateSessionService();
-    const { user, token } = await createSessionService.execute({
-      email,
-      password,
-    });
-    const userDTO = UserMap.toDTO(user);
 
-    return response.json({ userDTO, token });
-  } catch (error) {
-    return response.status(400).json({ error: error.message });
-  }
+  const createSessionService = new CreateSessionService();
+  const { user, token } = await createSessionService.execute({
+    email,
+    password,
+  });
+  const userDTO = UserMap.toDTO(user);
+
+  return response.json({ userDTO, token });
 });
 
 export default sessionsRouter;
