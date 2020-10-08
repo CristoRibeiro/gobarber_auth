@@ -12,14 +12,14 @@ function ensureAuthenticatedMiddlewares(
   request: Request,
   response: Response,
   next: NextFunction,
-): Response | any {
+): void {
   const authHeader = request.headers.authorization;
-  try {
-    if (!authHeader) {
-      throw new Error('Token is missing.');
-    }
-    const [, token] = authHeader.split(' ');
 
+  if (!authHeader) {
+    throw new Error('Token is missing.');
+  }
+  const [, token] = authHeader.split(' ');
+  try {
     const decoded = verify(token, authConfig.jwt.secret);
     const { sub } = decoded as TokenPayload;
 
@@ -27,7 +27,7 @@ function ensureAuthenticatedMiddlewares(
 
     return next();
   } catch (error) {
-    return response.status(400).json({ error: error.message });
+    throw new Error('Invalid token.');
   }
 }
 

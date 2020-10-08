@@ -8,6 +8,7 @@ export default class UserMap {
       email: user.email,
       create_at: user.create_at,
       update_at: user.update_at,
+      avatar: user.avatar,
     };
   }
 }
